@@ -14,7 +14,6 @@
       body {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        background-color: slateblue;
         color: seashell;
         font-family: 'Inter', sans-serif;
         font-size: 1.25rem;
@@ -25,28 +24,22 @@
         width: 100%;
         font-family: 'Droid Sans Mono', 'Courier New', Courier, monospace;
         font-size: 1.25rem;
-        background-color: snow;
-        color: darkslategray;
+        background-color: hsl(220, 20%, 20%);
+        color: snow;
         padding: 2rem;
         border: none;
-        white-space: pre-line;
       }
 
       iframe {
         height: 100vh;
         width: 100%;
+        background-color: hsl(220, 20%, 14%);
         border: none;
       }
     </style>
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
-    <textarea id="textarea">
-      const headingEl = document.querySelector('h1');
-      headingEl.style.color = 'wheat';
-    </textarea>
+    <textarea id="textarea">$('h1').color('wheat')</textarea>
 
     <iframe id="iframe"></iframe>
 
@@ -56,29 +49,72 @@
       const iframeEl = getEl('iframe')
       const textareaEl = getEl('textarea')
 
-      const html = `
-        <h1>Hello, World!</h1>
-        <p>Just some sweet text.</p>
-      `
+      function getHTML() {
+        const html = `
+          <h1>Hello, World!</h1>
+          <p>This is some sweet text.</p>
+          <img src="./image.gif" />
+        `
 
-      const css = `
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
+        return html
+      }
+
+      function getCSS() {
+        const css = `
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
+          body {
+            width: 100vw;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: snow;
+            padding: 2rem;
+          }
+
+          h1, p {
+            margin: 0.5rem 0 0.5rem 0;
+          }
+        `
+
+        return css
+      }
+
+      function getJS() {
+        const js = `
+          function $(el) {
+            
+            return {
+              element: document.querySelector(el),
+              color(color) {
+                this.element.style.color = color;
+                return this
+              }
+            }
+          }
+        `
+
+        return js
+      }
+
+      function debounce(callback, delay) {
+        let timerId
+
+        return () => {
+          clearTimeout(timerId)
+          timerId = setTimeout(callback, delay)
         }
+      }
 
-        body {
-          width: 100vw;
-          font-family: 'Inter', sans-serif;
-          color: snow;
-          padding: 2rem;
-      }`
+      function setIframeContent() {
+        const html = getHTML()
+        const css = getCSS()
+        const js = getJS() + textareaEl.value.trim()
 
-      const js = textareaEl.value.trim()
-
-      function setIframeContent(iframe, { html, css, js }) {
-        iframe.srcdoc = `
+        const source = `
           <html>
             <head>
               <style>${css}</style>
@@ -87,12 +123,13 @@
             <script>${js}<\/script>
           </html>
         `
+
+        iframeEl.srcdoc = source
       }
 
-      textareaEl.addEventListener(
-        'keyup',
-        setIframeContent(iframeEl, { html, css, js })
-      )
+      setIframeContent()
+
+      textareaEl.addEventListener('keyup', debounce(setIframeContent, 200))
     </script>
   </body>
 </html>
