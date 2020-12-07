@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 60% 1fr;
+  color: seashell;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+}
+
+textarea {
+  height: 100vh;
+  width: 100%;
+  font-family: 'Droid Sans Mono', 'Courier New', Courier, monospace;
+  font-size: 1.25rem;
+  background-color: hsl(220, 20%, 20%);
+  color: snow;
+  padding: 2rem;
+  border: none;
+  white-space: pre;
+}
+
+iframe {
+  height: 100vh;
+  width: 100%;
+  background-color: hsl(220, 20%, 14%);
+  border: none;
+}

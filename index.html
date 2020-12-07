@@ -4,132 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JavaScript Sandbox</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        color: seashell;
-        font-family: 'Inter', sans-serif;
-        font-size: 1.25rem;
-      }
-
-      textarea {
-        height: 100vh;
-        width: 100%;
-        font-family: 'Droid Sans Mono', 'Courier New', Courier, monospace;
-        font-size: 1.25rem;
-        background-color: hsl(220, 20%, 20%);
-        color: snow;
-        padding: 2rem;
-        border: none;
-      }
-
-      iframe {
-        height: 100vh;
-        width: 100%;
-        background-color: hsl(220, 20%, 14%);
-        border: none;
-      }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <textarea id="textarea">$('h1').color('wheat')</textarea>
+    <textarea id="textarea">
+const { useState } = React
+const { render } = ReactDOM
+      
+const App = () => {
+  const [ count, setCount ] = useState(0)
+
+  const increment = () => setCount(count + 1)
+
+  return (
+    <>
+      <h1>JSX 🥰</h1>
+      <p>{count}</p>
+      <button onClick={increment}>Click</button>
+    </>
+  )
+}
+
+render(<App />, document.getElementById('app'))
+</textarea
+    >
 
     <iframe id="iframe"></iframe>
 
-    <script>
-      const getEl = (id) => document.getElementById(id)
-
-      const iframeEl = getEl('iframe')
-      const textareaEl = getEl('textarea')
-
-      function getHTML() {
-        const html = `
-          <h1>Hello, World!</h1>
-          <p>This is some sweet text.</p>
-          <img src="./image.gif" />
-        `
-
-        return html
-      }
-
-      function getCSS() {
-        const css = `
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-
-          body {
-            width: 100vw;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.25rem;
-            color: snow;
-            padding: 2rem;
-          }
-
-          h1, p {
-            margin: 0.5rem 0 0.5rem 0;
-          }
-        `
-
-        return css
-      }
-
-      function getJS() {
-        const js = `
-          function $(el) {
-            
-            return {
-              element: document.querySelector(el),
-              color(color) {
-                this.element.style.color = color;
-                return this
-              }
-            }
-          }
-        `
-
-        return js
-      }
-
-      function debounce(callback, delay) {
-        let timerId
-
-        return () => {
-          clearTimeout(timerId)
-          timerId = setTimeout(callback, delay)
-        }
-      }
-
-      function setIframeContent() {
-        const html = getHTML()
-        const css = getCSS()
-        const js = getJS() + textareaEl.value.trim()
-
-        const source = `
-          <html>
-            <head>
-              <style>${css}</style>
-            </head>
-            ${html}
-            <script>${js}<\/script>
-          </html>
-        `
-
-        iframeEl.srcdoc = source
-      }
-
-      setIframeContent()
-
-      textareaEl.addEventListener('keyup', debounce(setIframeContent, 200))
-    </script>
+    <script src="./app.js"></script>
   </body>
 </html>
