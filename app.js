@@ -34,18 +34,22 @@ function setIframeContent() {
 
         #app {
           padding: 2rem;
-          margin-bottom: 2rem;
         }
 
         h1, h2, p {
           margin: 1rem 0;
         }
 
-        #output {
+        #output, #errors {
           font-size: 1rem;
-          padding: 0 2rem 0 2rem;
+          margin-bottom: 2rem;
+          padding: 2rem;
           border-top: 1px solid hsl(220, 20%, 10%);
           line-height: 1.6;
+        }
+
+        #errors pre {
+          color: tomato;
         }
 
         pre {
@@ -58,6 +62,8 @@ function setIframeContent() {
       <div id="app"></div>
 
       <div id="output"></div>
+      
+      <div id="errors"></div>
 
       <script src="https://unpkg.com/react@17/umd/react.development.js"><\/script>
       <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"><\/script>
@@ -69,13 +75,29 @@ function setIframeContent() {
         const options = { presets: ['react'] }
         const { code } = Babel.transform(${code}, options);
 
-        const titleEl = document.createElement('h2')
-        titleEl.innerText = 'JSX Output'
+        const outputEl = document.getElementById('output')
 
-        const targetEl = document.getElementById('output')
-        targetEl.innerHTML = '<pre>' + code.replace(/\\/\\*#__PURE__\\*\\//g, '') + '</pre>'
+        const outputTitleEl = document.createElement('h2')
+        outputTitleEl.innerText = 'JSX Output'
 
-        targetEl.prepend(titleEl)
+        const codeOutputEl = document.createElement('div')
+        codeOutputEl.innerHTML = '<pre>' + code.replace(/\\/\\*#__PURE__\\*\\//g, '') + '</pre>'
+
+        outputEl.append(outputTitleEl, codeOutputEl)
+      <\/script>
+      <script>
+        const errorsEl = document.getElementById('errors')
+
+        const errorsTitleEl = document.createElement('h2')
+        errorsTitleEl.innerText = 'Error Output'
+
+        const messagesEl = document.createElement('pre')
+
+        window.addEventListener('error', (e) => {
+          messagesEl.innerText = e.message
+        })
+
+        errorsEl.append(errorsTitleEl, messagesEl)
       <\/script>
     </body>
     </html>
