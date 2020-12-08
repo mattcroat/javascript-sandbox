@@ -1,20 +1,38 @@
-const getEl = (id) => document.getElementById(id)
+import { debounce, getEl } from './utility.js'
 
-const iframeEl = getEl('iframe')
 const textareaEl = getEl('textarea')
+const iframeEl = getEl('iframe')
+const transpiledEl = getEl('transpiled')
+const errorsEl = getEl('errors')
 
-function debounce(callback, delay) {
-  let timerId
+let code = textareaEl.value.trim()
 
-  return () => {
-    clearTimeout(timerId)
-    timerId = setTimeout(callback, delay)
-  }
+function updateCode() {
+  code = textareaEl.value.trim()
 }
 
-function setIframeContent() {
-  const js = textareaEl.value.trim()
-  const code = JSON.stringify(js)
+function transpileCode(code) {
+  const options = { presets: ['react'] }
+  const { code: babelCode } = Babel.transform(code, options)
+
+  const transpiledCode = babelCode.replace(/\/\*#__PURE__\*\//g, '')
+
+  transpiledEl.innerHTML = `
+    <h2>JSX Output</h2>
+    <pre>${transpiledCode}</pre>
+  `
+}
+
+function logErrors() {
+  errorsEl.innerHTML = `
+    <h2>Error Output</h2>
+    <pre>${e.message}</pre>
+  `
+}
+
+function setIframeContent(iframe, { code }) {
+  updateCode()
+  transpileCode(code)
 
   const source = `
     <html>
@@ -29,83 +47,33 @@ function setIframeContent() {
         body {
           font-family: 'Inter', sans-serif;
           font-size: 1.25rem;
-          color: snow;
-        }
-
-        #app {
           padding: 2rem;
+          color: snow;
         }
 
         h1, h2, p {
           margin: 1rem 0;
-        }
-
-        #output, #errors {
-          font-size: 1rem;
-          margin-bottom: 2rem;
-          padding: 2rem;
-          border-top: 1px solid hsl(220, 20%, 10%);
-          line-height: 1.6;
-        }
-
-        #errors pre {
-          color: tomato;
-        }
-
-        pre {
-          white-space: pre-wrap;
-          word-wrap: break-word;
         }
       </style>
     </head>
     <body>
       <div id="app"></div>
 
-      <div id="output"></div>
-      
-      <div id="errors"></div>
-
       <script src="https://unpkg.com/react@17/umd/react.development.js"><\/script>
       <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"><\/script>
       <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
       <script type="text/babel">
-        ${js}
-      <\/script>
-      <script>
-        const options = { presets: ['react'] }
-        const { code } = Babel.transform(${code}, options);
-
-        const outputEl = document.getElementById('output')
-
-        const outputTitleEl = document.createElement('h2')
-        outputTitleEl.innerText = 'JSX Output'
-
-        const codeOutputEl = document.createElement('div')
-        codeOutputEl.innerHTML = '<pre>' + code.replace(/\\/\\*#__PURE__\\*\\//g, '') + '</pre>'
-
-        outputEl.append(outputTitleEl, codeOutputEl)
-      <\/script>
-      <script>
-        const errorsEl = document.getElementById('errors')
-
-        const errorsTitleEl = document.createElement('h2')
-        errorsTitleEl.innerText = 'Error Output'
-
-        const messagesEl = document.createElement('pre')
-
-        window.addEventListener('error', (e) => {
-          messagesEl.innerText = e.message
-        })
-
-        errorsEl.append(errorsTitleEl, messagesEl)
+        ${code}
       <\/script>
     </body>
     </html>
   `
 
-  iframeEl.srcdoc = source
+  iframe.srcdoc = source
 }
 
-textareaEl.addEventListener('keyup', debounce(setIframeContent, 1000))
+document.body.addEventListener('keyup', () => {
+  debounce(setIframeContent(iframeEl, { code }), 1000)
+})
 
-setIframeContent()
+setIframeContent(iframeEl, { code })

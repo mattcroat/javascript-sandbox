@@ -5,28 +5,63 @@
 }
 
 body {
-  display: grid;
-  grid-template-columns: 60% 1fr;
+  display: flex;
   color: seashell;
   font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
 }
 
-textarea {
+.code,
+.result {
   height: 100vh;
   width: 100%;
+}
+
+.code textarea {
+  height: 100%;
+  width: 100%;
+  min-width: 50vw;
+  max-width: 80vw;
   font-family: 'Droid Sans Mono', 'Courier New', Courier, monospace;
   font-size: 1.25rem;
   background-color: hsl(220, 20%, 20%);
   color: snow;
   padding: 2rem;
   border: none;
-  white-space: pre;
+  resize: horizontal;
 }
 
-iframe {
-  height: 100vh;
-  width: 100%;
+.result {
+  display: flex;
+  flex-direction: column;
+}
+
+#output,
+#transpiled,
+#errors {
+  height: 100%;
   background-color: hsl(220, 20%, 14%);
+}
+
+#output iframe {
+  height: 100%;
+  width: 100%;
   border: none;
+}
+
+#transpiled,
+#errors {
+  font-size: 1rem;
+  padding: 2rem;
+  border-top: 1px solid hsl(220, 20%, 10%);
+  line-height: 1.6;
+}
+
+#errors pre {
+  color: tomato;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

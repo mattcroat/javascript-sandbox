@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JavaScript Sandbox</title>
     <link rel="stylesheet" href="./style.css" />
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      defer
+    ></script>
+    <script src="./app.js" type="module" defer></script>
   </head>
   <body>
-    <textarea id="textarea">
+    <div class="code">
+      <textarea id="textarea">
 const App = () => {
   const [ count, setCount ] = React.useState(0)
 
@@ -24,10 +30,15 @@ const App = () => {
 
 ReactDOM.render(<App />, document.getElementById('app'))
 </textarea
-    >
+      >
+    </div>
 
-    <iframe id="iframe"></iframe>
-
-    <script src="./app.js"></script>
+    <div class="result">
+      <div id="output">
+        <iframe id="iframe"></iframe>
+      </div>
+      <div id="transpiled"></div>
+      <div id="errors"></div>
+    </div>
   </body>
 </html>
