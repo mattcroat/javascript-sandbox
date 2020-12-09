@@ -1,14 +1,14 @@
-import { debounce, getEl } from './utility.js'
+import { createEl, debounce, getEl } from './utility.js'
 
 const textareaEl = getEl('textarea')
 const iframeEl = getEl('iframe')
 const transpiledEl = getEl('transpiled')
 const errorsEl = getEl('errors')
 
-let code = textareaEl.value.trim()
-
-function updateCode() {
-  code = textareaEl.value.trim()
+function getCode(el) {
+  return {
+    code: el.value.trim(),
+  }
 }
 
 function transpileCode(code) {
@@ -17,23 +17,23 @@ function transpileCode(code) {
 
   const transpiledCode = babelCode.replace(/\/\*#__PURE__\*\//g, '')
 
-  transpiledEl.innerHTML = `
-    <h2>JSX Output</h2>
-    <pre>${transpiledCode}</pre>
-  `
+  transpiledEl.innerHTML = ''
+
+  const titleEl = createEl('h3', 'JSX Output')
+  const preEl = createEl('pre', transpiledCode)
+  transpiledEl.append(titleEl, preEl)
 }
 
-function logErrors() {
-  errorsEl.innerHTML = `
-    <h2>Error Output</h2>
-    <pre>${e.message}</pre>
-  `
+function logErrors(e) {
+  errorsEl.innerHTML = ''
+
+  const titleEl = createEl('h3', 'Errors')
+  const preEl = createEl('pre', e.message)
+
+  errorsEl.append(titleEl, preEl)
 }
 
-function setIframeContent(iframe, { code }) {
-  updateCode()
-  transpileCode(code)
-
+function setIframeContent(iframe, code) {
   const source = `
     <html>
     <head>
@@ -51,7 +51,7 @@ function setIframeContent(iframe, { code }) {
           color: snow;
         }
 
-        h1, h2, p {
+        h1, p {
           margin: 1rem 0;
         }
       </style>
@@ -72,8 +72,18 @@ function setIframeContent(iframe, { code }) {
   iframe.srcdoc = source
 }
 
-document.body.addEventListener('keyup', () => {
-  debounce(setIframeContent(iframeEl, { code }), 1000)
-})
+function updateUI() {
+  const { code } = getCode(textareaEl)
 
-setIframeContent(iframeEl, { code })
+  setIframeContent(iframeEl, code)
+  transpileCode(code)
+}
+
+function handleKeyUp() {
+  updateUI()
+}
+
+textareaEl.addEventListener('keyup', debounce(handleKeyUp, 1000))
+window.addEventListener('error', logErrors)
+
+updateUI()
