@@ -1,9 +1,8 @@
 import { createEl, debounce, getEl } from './utility.js'
 
 const textareaEl = getEl('textarea')
-const iframeEl = getEl('iframe')
-const transpiledEl = getEl('transpiled')
-const errorsEl = getEl('errors')
+const outputEl = getEl('output')
+const sourceEl = getEl('source')
 
 function getCode(el) {
   return {
@@ -17,42 +16,39 @@ function transpileCode(code) {
 
   const transpiledCode = babelCode.replace(/\/\*#__PURE__\*\//g, '')
 
-  transpiledEl.innerHTML = ''
+  sourceEl.innerHTML = ''
 
   const titleEl = createEl('h3', 'JSX Output')
   const preEl = createEl('pre', transpiledCode)
-  transpiledEl.append(titleEl, preEl)
+  sourceEl.append(titleEl, preEl)
 }
 
 function logErrors(e) {
-  errorsEl.innerHTML = ''
+  outputEl.innerHTML = ''
 
-  const titleEl = createEl('h3', 'Errors')
+  const errorsEl = createEl('div')
+  errorsEl.classList.add('errors')
+
+  const titleEl = createEl('h3', 'Oops! 💩')
   const preEl = createEl('pre', e.message)
 
   errorsEl.append(titleEl, preEl)
+  outputEl.append(errorsEl)
 }
 
-function setIframeContent(iframe, code) {
+function setIframeContent(code) {
   const source = `
     <html>
     <head>
       <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
         body {
           font-family: 'Inter', sans-serif;
-          font-size: 1.25rem;
-          padding: 2rem;
-          color: snow;
+          overflow: hidden;
         }
 
-        h1, p {
-          margin: 1rem 0;
+        .app {
+          padding: 0 2rem;
+          color: snow;
         }
       </style>
     </head>
@@ -69,13 +65,18 @@ function setIframeContent(iframe, code) {
     </html>
   `
 
-  iframe.srcdoc = source
+  outputEl.innerHTML = ''
+
+  const iframeEl = createEl('iframe')
+  iframeEl.srcdoc = source
+
+  outputEl.append(iframeEl)
 }
 
 function updateUI() {
   const { code } = getCode(textareaEl)
 
-  setIframeContent(iframeEl, code)
+  setIframeContent(code)
   transpileCode(code)
 }
 

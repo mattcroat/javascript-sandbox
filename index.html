@@ -15,30 +15,22 @@
     <div class="code">
       <textarea id="textarea" spellcheck="false">
 function App() {
-  const [ count, setCount ] = React.useState(0)
-
-  const increment = () => setCount(count + 1)
-
   return (
-    <>
-      <h1>Counter</h1>
-      <p>{count}</p>
-      <button onClick={increment}>Click</button>
-    </>
+    <div class="app">
+      <h1>Sandbox</h1>
+      <img src="./image.gif" />
+    </div>
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById('app'))        
 </textarea
       >
     </div>
 
     <div class="result">
-      <div id="output">
-        <iframe id="iframe"></iframe>
-      </div>
-      <div id="transpiled"></div>
-      <div id="errors"></div>
+      <div id="output"></div>
+      <div id="source"></div>
     </div>
   </body>
 </html>

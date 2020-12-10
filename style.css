@@ -42,15 +42,10 @@ h3 {
 }
 
 #output,
-#transpiled,
-#errors {
-  height: 100%;
+#source {
+  height: 50%;
   background-color: hsl(220, 20%, 14%);
   overflow-x: hidden;
-}
-
-#output {
-  height: 40%;
 }
 
 #output iframe {
@@ -59,20 +54,19 @@ h3 {
   border: none;
 }
 
-#transpiled,
-#errors {
-  height: 30%;
-  font-size: 1rem;
+#output .errors {
+  padding: 2rem;
+  color: tomato;
+}
+
+#source {
   padding: 0 2rem;
   border-top: 1px solid hsl(220, 20%, 10%);
   line-height: 1.6;
 }
 
-#errors pre {
-  color: tomato;
-}
-
 pre {
+  font-family: inherit;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
