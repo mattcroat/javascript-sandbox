@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
+
+:root {
+  --font-size: 1.25rem;
+  --spacing: 2rem;
+  --sans-serif: 'Inter', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,8 +17,8 @@
 body {
   display: flex;
   color: seashell;
-  font-family: 'Inter', sans-serif;
-  font-size: 1.25rem;
+  font-family: var(--sans-serif);
+  font-size: var(--font-size);
 }
 
 h3 {
@@ -27,11 +37,11 @@ h3 {
   width: 100%;
   min-width: 50vw;
   max-width: 80vw;
-  font-family: 'Droid Sans Mono', 'Courier New', Courier, monospace;
-  font-size: 1.25rem;
+  font-family: var(--mono);
+  font-size: var(--font-size);
   background-color: hsl(220, 20%, 20%);
   color: snow;
-  padding: 2rem;
+  padding: var(--spacing);
   border: none;
   resize: horizontal;
 }
@@ -55,18 +65,18 @@ h3 {
 }
 
 #output .errors {
-  padding: 2rem;
+  padding: var(--spacing);
   color: tomato;
 }
 
 #source {
-  padding: 0 2rem;
+  padding: 0 var(--spacing);
   border-top: 1px solid hsl(220, 20%, 10%);
   line-height: 1.6;
 }
 
 pre {
-  font-family: inherit;
+  font-family: var(--mono);
   white-space: pre-wrap;
   word-wrap: break-word;
 }
