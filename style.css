@@ -19,11 +19,18 @@ body {
   color: seashell;
   font-family: var(--sans-serif);
   font-size: var(--font-size);
+  overflow: hidden;
 }
 
 h3 {
-  color: hsl(220, 20%, 60%);
-  margin: 1rem 0;
+  position: absolute;
+  right: 20px;
+  font-size: 1rem;
+  background-color: wheat;
+  color: hsl(0, 0%, 12%);
+  color: sienna;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
 }
 
 .code,
@@ -32,18 +39,12 @@ h3 {
   width: 100%;
 }
 
-.code textarea {
+#editor {
   height: 100%;
-  width: 100%;
   min-width: 50vw;
-  max-width: 80vw;
-  font-family: var(--mono);
-  font-size: var(--font-size);
-  background-color: hsl(220, 20%, 20%);
-  color: snow;
-  padding: var(--spacing);
-  border: none;
+  max-width: 100vw;
   resize: horizontal;
+  overflow: hidden;
 }
 
 .result {
@@ -53,8 +54,9 @@ h3 {
 
 #output,
 #source {
+  position: relative;
   height: 50%;
-  background-color: hsl(220, 20%, 14%);
+  background-color: hsl(0, 0%, 12%);
   overflow-x: hidden;
 }
 
@@ -70,12 +72,13 @@ h3 {
 }
 
 #source {
-  padding: 0 var(--spacing);
-  border-top: 1px solid hsl(220, 20%, 10%);
+  padding: 1rem var(--spacing);
+  border-top: 2px solid hsl(0, 0%, 10%);
   line-height: 1.6;
 }
 
 pre {
+  max-width: 400px;
   font-family: var(--mono);
   white-space: pre-wrap;
   word-wrap: break-word;
