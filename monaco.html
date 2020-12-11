@@ -1,17 +1,14 @@
 <!-- https://stackoverflow.com/questions/63179813/how-to-run-the-monaco-editor-from-a-cdn-like-cdnjs -->
 <!-- https://github.com/microsoft/monaco-editor-samples -->
 <!-- https://github.com/microsoft/monaco-editor/blob/master/docs/integrate-amd-cross.md -->
+<!-- https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditoroptions.html -->
+<!-- https://microsoft.github.io/vscode-codicons/dist/codicon.html -->
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Monaco Editor</title>
-    <link
-      rel="stylesheet"
-      data-name="vs/editor/editor.main"
-      href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min/vs/editor/editor.main.min.css"
-    />
     <style>
       * {
         margin: 0;
@@ -22,42 +19,51 @@
       body {
         overflow: hidden;
       }
+
+      #container {
+        height: 100vh;
+        width: 100vw;
+      }
     </style>
   </head>
   <body>
-    <div id="container" style="height: 100vh; width: 100vw"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min/vs/loader.min.js"></script>
-    <script>
-      require.config({
-        paths: {
-          vs:
-            'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min/vs',
+    <div id="container"></div>
+
+    <script type="module">
+      import * as monaco from 'https://cdn.skypack.dev/monaco-editor'
+
+      // before loading the editor, define a global MonacoEnvironment that overwrites
+      // the default worker url location. HTML5 does not allow cross-domain web workers,
+      // so we need to proxy the instantiation of a web worker through a same-domain script.
+      window.MonacoEnvironment = {
+        getWorkerUrl: () => {
+          return `
+            data:text/javascript;charset=utf-8,
+            ${encodeURIComponent(`
+              self.MonacoEnvironment = {
+                baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min'
+              };
+              importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min/vs/base/worker/workerMain.min.js');
+            `)}
+          `
         },
-      })
-
-      window.MonacoEnvironment = { getWorkerUrl: () => proxy }
-
-      const proxy = URL.createObjectURL(
-        new Blob(
-          [
-            `self.MonacoEnvironment = { baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min'};
-            importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min/vs/base/worker/workerMain.min.js');`,
-          ],
-          { type: 'text/javascript' }
-        )
-      )
-
-      function monacoEditor() {
-        const editor = monaco.editor.create(
-          document.getElementById('container'),
-          {
-            language: 'javascript',
-            theme: 'vs-dark',
-          }
-        )
       }
 
-      require(['vs/editor/editor.main'], monacoEditor)
+      const options = {
+        language: 'javascript',
+        theme: 'vs-dark',
+        minimap: {
+          enabled: false,
+        },
+        fontFamily: 'IBM Plex Mono, monospace',
+        fontSize: '20px',
+        tabSize: 2,
+      }
+
+      const editor = monaco.editor.create(
+        document.getElementById('container'),
+        options
+      )
     </script>
   </body>
 </html>
