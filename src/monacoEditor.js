@@ -17,7 +17,10 @@ window.MonacoEnvironment = {
   },
 }
 
-const placeholder = `import confetti from 'https://cdn.skypack.dev/canvas-confetti'
+const placeholder = `import React from 'https://cdn.skypack.dev/react'
+import { render } from 'https://cdn.skypack.dev/react-dom'
+
+import confetti from 'https://cdn.skypack.dev/canvas-confetti'
 
 function App() {
   return (
@@ -31,7 +34,7 @@ function App() {
   )
 }
 
-ReactDOM.render(
+render(
   <App />,
   document.getElementById('app')
 )`

@@ -78,7 +78,6 @@ h3 {
 }
 
 pre {
-  max-width: 400px;
   font-family: var(--mono);
   white-space: pre-wrap;
   word-wrap: break-word;
