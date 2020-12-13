@@ -1,3 +1,3 @@
 # JavaScript Sandbox
 
-![Rick Astley dancing](./v1.png)
+![JavaScript Sandbox](./img/sandbox.png)
