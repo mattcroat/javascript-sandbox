@@ -22,7 +22,10 @@ const placeholder = `import confetti from 'https://cdn.skypack.dev/canvas-confet
 function App() {
   return (
     <div className="app">
-      <h1>Sandbox</h1>
+      <h1>JavaScript Sandbox</h1>
+      <p>
+        You can use NPM packages provided by <a href="https://www.skypack.dev/">Skypack</a>.
+      </p>
       <img onClick={confetti} src="./image.gif" />
     </div>
   )

@@ -1,3 +1,5 @@
+import { transform } from 'https://cdn.skypack.dev/@babel/standalone'
+
 import { editor } from './monacoEditor.js'
 import { createEl, debounce, getEl } from './utility.js'
 
@@ -11,7 +13,7 @@ function getCode() {
 
 function transpileCode(code) {
   const options = { presets: ['es2015-loose', 'react'] }
-  const { code: babelCode } = Babel.transform(code, options)
+  const { code: babelCode } = transform(code, options)
 
   const transpiledCode = babelCode.replace(/\/\*#__PURE__\*\//g, '')
 
@@ -50,6 +52,10 @@ function setIframeContent(code) {
         .app {
           padding: 0 2rem;
           color: snow;
+        }
+
+        .app a {
+          color: wheat;
         }
       </style>
     </head>
