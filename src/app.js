@@ -3,8 +3,11 @@ import { transform } from 'https://cdn.skypack.dev/@babel/standalone'
 import { editor } from './monacoEditor.js'
 import { createEl, debounce, getEl } from './utility.js'
 
-const editorEl = getEl('editor')
 const outputEl = getEl('output')
+const iframeEl = getEl('iframe')
+const errorsEl = getEl('errors')
+
+const editorEl = getEl('editor')
 const sourceEl = getEl('source')
 
 const importsMatchRegex = /import(?:["'\s]*([\w*{}\n\r\t, ]+)from\s*)?["'\s].*([@\w/_-]+)["'\s].*/g
@@ -38,10 +41,10 @@ function transpileCode(code) {
 }
 
 function logErrors(e) {
-  outputEl.innerHTML = ''
+  errorsEl.innerHTML = ''
 
-  const errorsEl = createEl('div')
-  errorsEl.classList.add('errors')
+  iframeEl.classList.add('hidden')
+  errorsEl.classList.remove('hidden')
 
   const titleEl = createEl('h3', '💩 Oops!')
   const preEl = createEl('pre', e.message)
@@ -51,6 +54,9 @@ function logErrors(e) {
 }
 
 function setIframeContent(code) {
+  iframeEl.classList.remove('hidden')
+  errorsEl.classList.add('hidden')
+
   const source = `
     <html>
     <head>
@@ -83,12 +89,7 @@ function setIframeContent(code) {
     </html>
   `
 
-  outputEl.innerHTML = ''
-
-  const iframeEl = createEl('iframe')
   iframeEl.srcdoc = source
-
-  outputEl.append(iframeEl)
 }
 
 function updateUI() {

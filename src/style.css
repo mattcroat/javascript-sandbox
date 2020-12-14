@@ -60,13 +60,13 @@ h3 {
   overflow-x: hidden;
 }
 
-#output iframe {
+#iframe {
   height: 100%;
   width: 100%;
   border: none;
 }
 
-#output .errors {
+#errors {
   padding: var(--spacing);
   color: tomato;
 }
@@ -81,4 +81,8 @@ pre {
   font-family: var(--mono);
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+.hidden {
+  display: none;
 }
