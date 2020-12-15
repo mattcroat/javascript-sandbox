@@ -71,6 +71,10 @@ h3 {
   color: tomato;
 }
 
+#errors pre {
+  max-width: 80%;
+}
+
 #source {
   padding: 1rem var(--spacing);
   border-top: 2px solid hsl(0, 0%, 10%);

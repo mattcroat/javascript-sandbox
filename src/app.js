@@ -40,14 +40,14 @@ function transpileCode(code) {
   sourceEl.append(titleEl, preEl)
 }
 
-function logErrors(e) {
+function logErrors(error) {
   errorsEl.innerHTML = ''
 
   iframeEl.classList.add('hidden')
   errorsEl.classList.remove('hidden')
 
   const titleEl = createEl('h3', '💩 Oops!')
-  const preEl = createEl('pre', e.message)
+  const preEl = createEl('pre', error)
 
   errorsEl.append(titleEl, preEl)
   outputEl.append(errorsEl)
@@ -81,10 +81,17 @@ function setIframeContent(code) {
     <body>
       <div id="app"></div>
 
-      <script src="https://cdn.skypack.dev/@babel/standalone" type="module"><\/script>
+      <script src="https://cdn.skypack.dev/@babel/standalone" type="module"></script>
+      <script>
+        function handleError({ message: errorMessage }) {
+          window.parent.postMessage(errorMessage, '*')
+        }
+
+        window.addEventListener('error', handleError)
+      </script>
       <script type="text/babel" data-type="module">
         ${code}
-      <\/script>
+      </script>
     </body>
     </html>
   `
@@ -103,7 +110,13 @@ function handleKeyUp() {
   updateUI()
 }
 
+function handleMessage({ data: errorMessage }) {
+  if (typeof errorMessage === 'string') {
+    logErrors(errorMessage)
+  }
+}
+
 editorEl.addEventListener('keyup', debounce(handleKeyUp, 1000))
-window.addEventListener('error', logErrors)
+window.addEventListener('message', handleMessage)
 
 updateUI()
