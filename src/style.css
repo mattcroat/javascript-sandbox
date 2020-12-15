@@ -28,7 +28,6 @@ h3 {
   font-size: 1rem;
   background-color: wheat;
   color: hsl(0, 0%, 12%);
-  color: sienna;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
 }
@@ -89,4 +88,28 @@ pre {
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 800px) {
+  body {
+    display: block;
+    overflow: scroll;
+  }
+
+  .code,
+  .result {
+    height: 50vh;
+  }
+
+  #editor {
+    resize: none;
+  }
+
+  #output {
+    height: 100%;
+  }
+
+  #source {
+    display: none;
+  }
 }
