@@ -50,7 +50,6 @@ function logErrors(error) {
   const preEl = createEl('pre', error)
 
   errorsEl.append(titleEl, preEl)
-  outputEl.append(errorsEl)
 }
 
 function setIframeContent(code) {
