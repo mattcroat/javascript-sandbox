@@ -1,9 +1,6 @@
-import { transform } from 'https://cdn.skypack.dev/@babel/standalone'
-
 import { editor } from './monacoEditor.js'
 import { createEl, debounce, getEl } from './utility.js'
 
-const outputEl = getEl('output')
 const iframeEl = getEl('iframe')
 const errorsEl = getEl('errors')
 
@@ -27,7 +24,7 @@ function transpileCode(code) {
 
   // the magic sauce used to transpile the code
   const options = { presets: ['es2015-loose', 'react'] }
-  const { code: babelCode } = transform(codeToTranspile, options)
+  const { code: babelCode } = window.Babel(codeToTranspile, options)
 
   // ignore /*#__PURE__*/ from transpiled output
   const transpiledCode = format(babelCode, stringMatchRegex)
@@ -80,7 +77,7 @@ function setIframeContent(code) {
     <body>
       <div id="app"></div>
 
-      <script src="https://cdn.skypack.dev/@babel/standalone" type="module"></script>
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js" type="module"></script>
       <script>
         function handleError({ message: errorMessage }) {
           window.parent.postMessage(errorMessage, '*')
