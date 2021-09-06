@@ -3,26 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <title>JavaScript Sandbox</title>
-    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./src/style.css" />
-    <script
-      src="https://unpkg.com/@babel/standalone/babel.min.js"
-      defer
-    ></script>
-    <script src="./src/app.js" type="module"></script>
+    <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles/style.css" />
+    <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
-    <div class="code">
-      <div id="editor"></div>
-    </div>
+    <section class="code">
+      <div class="editor" data-editor></div>
+    </section>
 
-    <div class="result">
-      <div id="output">
-        <iframe id="iframe"></iframe>
-        <div id="errors" class="hidden"></div>
+    <section class="result">
+      <div class="output">
+        <iframe data-iframe></iframe>
+        <div class="errors" data-errors></div>
       </div>
-      <div id="source"></div>
-    </div>
+      <div class="source" data-source></div>
+    </section>
   </body>
 </html>

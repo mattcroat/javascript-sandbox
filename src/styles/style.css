@@ -2,10 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
 
 :root {
-  --font-size: 1.25rem;
+  --font-size: 1rem;
   --spacing: 2rem;
   --sans-serif: 'Inter', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
+  --fadeIn: fadeIn 0.3s ease;
 }
 
 * {
@@ -27,7 +28,7 @@ h3 {
   right: 20px;
   font-size: 1rem;
   background-color: wheat;
-  color: hsl(0, 0%, 12%);
+  color: hsl(0 0% 12%);
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
 }
@@ -38,7 +39,7 @@ h3 {
   width: 100%;
 }
 
-#editor {
+.editor {
   height: 100%;
   min-width: 50vw;
   max-width: 100vw;
@@ -51,43 +52,43 @@ h3 {
   flex-direction: column;
 }
 
-#output,
-#source {
+.output,
+.source {
   position: relative;
   height: 50%;
-  background-color: hsl(0, 0%, 12%);
+  background-color: hsl(0 0% 12%);
   overflow-x: hidden;
 }
 
-#iframe {
+iframe {
   height: 100%;
   width: 100%;
   border: none;
+  animation: var(--fadeIn);
 }
 
-#errors {
+.errors {
   padding: var(--spacing);
   color: tomato;
+  animation: var(--fadeIn);
 }
 
-#errors pre {
+.errors xmp {
   max-width: 80%;
 }
 
-#source {
+.source {
   padding: 1rem var(--spacing);
-  border-top: 2px solid hsl(0, 0%, 10%);
+  border-top: 2px solid hsl(0 0% 10%);
   line-height: 1.6;
+  animation: var(--fadeIn);
 }
 
-pre {
+pre,
+xmp {
   font-family: var(--mono);
   white-space: pre-wrap;
   word-wrap: break-word;
-}
-
-.hidden {
-  display: none;
 }
 
 @media (max-width: 800px) {
@@ -101,15 +102,24 @@ pre {
     height: 50vh;
   }
 
-  #editor {
+  .editor {
     resize: none;
   }
 
-  #output {
+  .output {
     height: 100%;
   }
 
-  #source {
+  .source {
     display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
