@@ -1,5 +1,5 @@
 # JavaScript Sandbox
 
-![JavaScript Sandbox](./img/sandbox.gif)
+![JavaScript Sandbox](./images/sandbox.gif)
 
-You can read how to [Create a Coding Sandbox](https://joyofcode.xyz/create-a-coding-sandbox) on [Joy of Code](https://joyofcode.xyz/).
+You can read how to [create a coding sandbox](https://joyofcode.xyz/create-a-coding-sandbox) on [Joy of Code](https://joyofcode.xyz/).
