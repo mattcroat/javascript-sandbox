@@ -128,7 +128,7 @@ xmp {
 .loader {
   width: 40px;
   height: 40px;
-  position: relative;
+  margin: 0 auto;
   background-color: hsl(0 0% 100%);
   background: linear-gradient(
     to right,
@@ -137,7 +137,6 @@ xmp {
   );
   transform: translateZ(0);
   border-radius: 50%;
-  text-indent: -9999px;
   animation: spin 1.4s infinite linear;
 }
 
