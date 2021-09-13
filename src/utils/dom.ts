@@ -1,13 +1,19 @@
-export function getElement(element: string) {
-  return document.querySelector(element)
+export function getElement(targetElement: string): HTMLElement {
+  const element = document.querySelector(targetElement)
+
+  if (!element) {
+    throw new Error(`Element '${targetElement}' doesn't exist.`)
+  }
+
+  return element as HTMLElement
 }
 
-export function showIframe() {
+export function showIframe(): void {
   elements.iframe.style.display = 'block'
   elements.errors.style.display = 'none'
 }
 
-export function showError() {
+export function showError(): void {
   elements.iframe.style.display = 'none'
   elements.errors.style.display = 'block'
 }

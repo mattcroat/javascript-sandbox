@@ -1,4 +1,4 @@
-export function debounce(callback: () => void, delay = 500) {
+export function debounce(callback: () => void, delay = 500): () => void {
   let timerId: NodeJS.Timeout
 
   return () => {

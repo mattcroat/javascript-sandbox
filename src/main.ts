@@ -5,12 +5,12 @@ import { elements, showError, showIframe } from './utils/dom'
 import { importsRegex, pureRegex, replace } from './utils/format'
 import { debounce } from './utils/helpers'
 
-import type { ErrorMessageType, StateType } from './types/state'
+import type { ErrorMessageType, StateType, TranspiledCodeType } from './types'
 
 let state: StateType = 'editing'
 let errorMessage: ErrorMessageType = ''
 
-function transpileCode(code: string) {
+function transpileCode(code: string): TranspiledCodeType {
   // ignore imports so Babel doesn't transpile it
   const codeToTranspile = replace(code, importsRegex)
   // the magic sauce used to transpile the code
@@ -34,7 +34,7 @@ function transpileCode(code: string) {
   }
 }
 
-function updateSource(transpiledOutput: string) {
+function updateSource(transpiledOutput: string): void {
   const sourceHTML = /* html */ `
       <h3>📜 Source</h3>
       <pre>${transpiledOutput}</pre>
@@ -42,7 +42,7 @@ function updateSource(transpiledOutput: string) {
   elements.source.innerHTML = sourceHTML
 }
 
-function logError(error: string) {
+function logError(error: string): void {
   const errorHtml = /* html */ `
       <h3>💩 Error</h3>
       <xmp>${error}</xmp>
@@ -50,7 +50,7 @@ function logError(error: string) {
   elements.errors.innerHTML = errorHtml
 }
 
-function updateIframe(code: string) {
+function updateIframe(code: string): void {
   const source = /* html */ `
       <html>
       <head>
@@ -65,7 +65,7 @@ function updateIframe(code: string) {
   elements.iframe.srcdoc = source
 }
 
-function updateUI() {
+function updateUI(): void {
   if (state === 'editing') {
     showIframe()
     const code = monacoEditor.getValue()
