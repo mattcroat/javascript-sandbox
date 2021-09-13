@@ -36,32 +36,32 @@ function transpileCode(code: string) {
 
 function updateSource(transpiledOutput: string) {
   const sourceHTML = /* html */ `
-    <h3>📜 Source</h3>
-    <pre>${transpiledOutput}</pre>
-  `
+      <h3>📜 Source</h3>
+      <pre>${transpiledOutput}</pre>
+    `
   elements.source.innerHTML = sourceHTML
 }
 
 function logError(error: string) {
   const errorHtml = /* html */ `
-    <h3>💩 Error</h3>
-    <xmp>${error}</xmp>
-  `
+      <h3>💩 Error</h3>
+      <xmp>${error}</xmp>
+    `
   elements.errors.innerHTML = errorHtml
 }
 
 function updateIframe(code: string) {
   const source = /* html */ `
-    <html>
-    <head>
-      <link rel="stylesheet" href="/iframe.css">
-    </head>
-    <body>
-      <div id="app"></div>
-      <script type="module">${code}</script>
-    </body>
-    </html>
-  `
+      <html>
+      <head>
+        <link rel="stylesheet" href="/iframe.css">
+      </head>
+      <body>
+        <div id="app"></div>
+        <script type="module">${code}</script>
+      </body>
+      </html>
+    `
   elements.iframe.srcdoc = source
 }
 
@@ -95,5 +95,7 @@ window.addEventListener('error', ({ error }: ErrorEvent) => {
   // if there is no longer an `error` on the page
   state = 'editing'
 })
+
+window.addEventListener('load', () => elements.loading.remove())
 
 updateUI()

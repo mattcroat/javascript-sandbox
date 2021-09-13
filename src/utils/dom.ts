@@ -17,4 +17,5 @@ export const elements = {
   errors: getElement('[data-errors]') as HTMLDivElement,
   editor: getElement('[data-editor]') as HTMLDivElement,
   source: getElement('[data-source]') as HTMLDivElement,
+  loading: getElement('[data-loading]') as HTMLDivElement,
 }

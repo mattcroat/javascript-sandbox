@@ -115,6 +115,62 @@ xmp {
   }
 }
 
+.loading {
+  display: grid;
+  gap: 1rem;
+  place-content: center;
+  position: absolute;
+  inset: 0;
+  background-color: hsl(200 20% 14%);
+  z-index: 1;
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  background-color: hsl(0 0% 100%);
+  background: linear-gradient(
+    to right,
+    hsl(0 0% 100%) 10%,
+    hsla(0 0% 100% / 0%) 42%
+  );
+  transform: translateZ(0);
+  border-radius: 50%;
+  text-indent: -9999px;
+  animation: spin 1.4s infinite linear;
+}
+
+.loader:before {
+  content: '';
+  height: 50%;
+  width: 50%;
+  position: absolute;
+  inset: 0;
+  background-color: hsl(0 0% 100%);
+  border-radius: 100% 0 0 0;
+}
+
+.loader:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  height: 75%;
+  width: 75%;
+  margin: auto;
+  background-color: hsl(200 20% 14%);
+  border-radius: 50%;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
