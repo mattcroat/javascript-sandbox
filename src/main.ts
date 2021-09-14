@@ -18,7 +18,7 @@ function transpileCode(code: string): TranspiledCodeType {
   const { code: transpiledCode } = transform(codeToTranspile, options)
 
   if (!transpiledCode) {
-    // code errors get caught by the `error` listener instead
+    // syntax errors get caught by the `error` listener
     throw new Error(`Something went wrong transpiling ${codeToTranspile}.`)
   }
 
@@ -34,22 +34,6 @@ function transpileCode(code: string): TranspiledCodeType {
   }
 }
 
-function updateSource(transpiledOutput: string): void {
-  const sourceHTML = /* html */ `
-      <h3>📜 Source</h3>
-      <pre>${transpiledOutput}</pre>
-    `
-  elements.source.innerHTML = sourceHTML
-}
-
-function logError(error: string): void {
-  const errorHtml = /* html */ `
-      <h3>💩 Error</h3>
-      <xmp>${error}</xmp>
-    `
-  elements.errors.innerHTML = errorHtml
-}
-
 function updateIframe(code: string): void {
   const source = /* html */ `
       <html>
@@ -63,6 +47,22 @@ function updateIframe(code: string): void {
       </html>
     `
   elements.iframe.srcdoc = source
+}
+
+function updateSource(transpiledOutput: string): void {
+  const sourceHTML = /* html */ `
+      <h3>📜 Source</h3>
+      <xmp>${transpiledOutput}</xmp>
+    `
+  elements.source.innerHTML = sourceHTML
+}
+
+function logError(error: string): void {
+  const errorHtml = /* html */ `
+      <h3>💩 Error</h3>
+      <xmp>${error}</xmp>
+    `
+  elements.errors.innerHTML = errorHtml
 }
 
 function updateUI(): void {
@@ -91,7 +91,6 @@ window.addEventListener('error', ({ error }: ErrorEvent) => {
   errorMessage = error.message
   updateUI()
 
-  // reset state because it should be the last thing set
   // if there is no longer an `error` on the page
   state = 'editing'
 })
