@@ -42,10 +42,7 @@ const editorOptions = {
   fontFamily: 'IBM Plex Mono, monospace',
   fontSize: 16,
   tabSize: 2,
-  ligatures: true,
 }
 
-const editorElement = elements.editor
-const monacoEditor = monaco.editor.create(editorElement, editorOptions)
-
+const monacoEditor = monaco.editor.create(elements.editor, editorOptions)
 export { monacoEditor as default }
